@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 # TODO: Update this if you don't have ZSH
 
 IN_FILE=$1
@@ -31,10 +31,10 @@ PROC_PKT_CNT=`grep "Packet count" ${NEW_REPORT_FILE} | cut -d":" -f2 | xargs`
 # 12-byte `Secondary Header`, and then followed by a CCSDS Packet.
 HOSC_HEADER_SIZE=28
 
-CCSDS_CNT_CHECK=`python ${CCSDS_CHECK_SCRIPT} ${PROC_FILE} 2&>1 | tail -1`
+CCSDS_CNT_CHECK=`python ${CCSDS_CHECK_SCRIPT} ${PROC_FILE} 2>&1 | tail -1`
 
 echo "-----------------------------" >> ${REPORT_LOG}
-echo "\n${IN_FILE} Proc Report" >> ${REPORT_LOG}
+echo "${IN_FILE} Proc Report" >> ${REPORT_LOG}
 echo "-----------------------------" >> ${REPORT_LOG}
 echo "Processed File: ${PROC_FILE}" >> ${REPORT_LOG}
 echo "Report File: ${NEW_REPORT_FILE}\n" >> ${REPORT_LOG}
@@ -49,6 +49,12 @@ echo "Any incorrectly ordered packet errors (Nothing here is good):" >> ${REPORT
 echo `grep "Encountered an out of order packet" ${NEW_REPORT_FILE}` >> ${REPORT_LOG}
 echo `grep "Encountered out of order PSC" ${NEW_REPORT_FILE}` >> ${REPORT_LOG}
 echo "\n"
-echo "Processed CCSDS Packet Count Check: $((${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
+#echo "Processed CCSDS Packet Count Check: $((${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
+if [[ ${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}  ]]
+then
+    echo "Processed CCSDS Packet Count Check: 1" >> ${REPORT_LOG}
+else
+    echo "Processed CCSDS Packet Count Check: 0" >> ${REPORT_LOG}
+fi
 echo "\n"
 
