@@ -1,10 +1,10 @@
 #!/bin/bash
-# TODO: Update this if you don't have ZSH
 
 IN_FILE=$1
 OUT_DIR=$2
 REPORT_LOG=$3
 CCSDS_CHECK_SCRIPT=$4
+L0_PROC_EXE=$5
  
 if [ -d ${OUT_DIR} ]; then
     rm -r ${OUT_DIR}
@@ -16,7 +16,7 @@ if [ -f ${REPORT_LOG} ]; then
 fi
  
 
-$5 --input-file ${IN_FILE} --output-dir ${OUT_DIR}
+${L0_PROC_EXE} --input-file ${IN_FILE} --output-dir ${OUT_DIR}
 PROC_FILE=`ls ${OUT_DIR}/*.bin | sort | tail -1`
 LAST_OUTPUT_FILE=`basename ${PROC_FILE} | cut -d'.' -f1`
 NEW_REPORT_FILE=${OUT_DIR}/${LAST_OUTPUT_FILE}_report.txt
