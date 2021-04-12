@@ -23,8 +23,8 @@ NEW_REPORT_FILE=${OUT_DIR}/${LAST_OUTPUT_FILE}_report.txt
 
 mv ${OUT_DIR}/1482_report.txt ${NEW_REPORT_FILE}
 
-ORIG_SIZE=`stat -f%z ${IN_FILE}`
-PROC_SIZE=`stat -f%z ${PROC_FILE}`
+ORIG_SIZE=`stat -c %s ${IN_FILE}`
+PROC_SIZE=`stat -c %s ${PROC_FILE}`
 PROC_PKT_CNT=`grep "Packet count" ${NEW_REPORT_FILE} | cut -d":" -f2 | xargs`
 
 # A HOSC EHS packet consists of a 16-byte `Primary Header`, followed by a
@@ -43,18 +43,12 @@ echo "Processed File Size: ${PROC_SIZE}" >> ${REPORT_LOG}
 echo "CCSDS Count Check: ${CCSDS_CNT_CHECK}" >> ${REPORT_LOG}
 echo "Processed Packet Count: ${PROC_PKT_CNT}" >> ${REPORT_LOG}
 echo "Removed Header Size: $((${HOSC_HEADER_SIZE} * ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
-echo "File Size Match: $(($ORIG_SIZE - ${HOSC_HEADER_SIZE} * ${PROC_PKT_CNT} == ${PROC_SIZE}))" >> ${REPORT_LOG}
+echo "File Size Match: $((${ORIG_SIZE} - ${HOSC_HEADER_SIZE} * ${PROC_PKT_CNT} == ${PROC_SIZE}))" >> ${REPORT_LOG}
 echo "\n"
 echo "Any incorrectly ordered packet errors (Nothing here is good):" >> ${REPORT_LOG}
 echo `grep "Encountered an out of order packet" ${NEW_REPORT_FILE}` >> ${REPORT_LOG}
 echo `grep "Encountered out of order PSC" ${NEW_REPORT_FILE}` >> ${REPORT_LOG}
 echo "\n"
-#echo "Processed CCSDS Packet Count Check: $((${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
-if [[ ${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}  ]]
-then
-    echo "Processed CCSDS Packet Count Check: 1" >> ${REPORT_LOG}
-else
-    echo "Processed CCSDS Packet Count Check: 0" >> ${REPORT_LOG}
-fi
+echo "Processed CCSDS Packet Count Check: $((${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
 echo "\n"
 
