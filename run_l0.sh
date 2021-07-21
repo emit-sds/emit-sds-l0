@@ -19,9 +19,10 @@ fi
 ${L0_PROC_EXE} --input-file ${IN_FILE} --output-dir ${OUT_DIR}
 PROC_FILE=`ls ${OUT_DIR}/*.bin | sort | tail -1`
 LAST_OUTPUT_FILE=`basename ${PROC_FILE} | cut -d'.' -f1`
+REPORT_FILE=`ls ${OUT_DIR}/*_report.txt | sort | tail -1`
 NEW_REPORT_FILE=${OUT_DIR}/${LAST_OUTPUT_FILE}_report.txt
 
-mv ${OUT_DIR}/1482_report.txt ${NEW_REPORT_FILE}
+mv ${REPORT_FILE} ${NEW_REPORT_FILE}
 
 ORIG_SIZE=`stat -c %s ${IN_FILE}`
 PROC_SIZE=`stat -c %s ${PROC_FILE}`
