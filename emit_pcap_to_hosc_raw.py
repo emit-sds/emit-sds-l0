@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 import argparse
+import datetime
 import io
 import os.path
+import shutil
+import time
 
 from ait.core import log
 from ait.core import pcap
@@ -10,6 +13,8 @@ import emit.data_products as dp
 
 
 HOSC_HEADER = bytes(28)
+GPS_UTC_DELTA = 315964800
+LEAP_SECONDS = 18
 
 
 if __name__ == "__main__":
@@ -42,6 +47,11 @@ if __name__ == "__main__":
     pkt_cnt_1674 = 0
     pkt_cnt_1675 = 0
 
+    start_time_1674 = 0
+    start_time_1675 = 0
+    stop_time_1674 = 0
+    stop_time_1675 = 0
+
     with pcap.open(input_file, "r") as infile:
         with open(out_file_1674, "wb") as outfile_1674, open(out_file_1675, "wb") as outfile_1675:
             for _header, data in infile:
@@ -56,16 +66,39 @@ if __name__ == "__main__":
                 # Our ethernet frames only contain a single CCSDS Packet ...
                 pkt = dp.CCSDSPacket(stream=in_bytes)
 
+                course_time = int.from_bytes(pkt.body[:4], "big")
+                utc_time = time.gmtime(course_time + GPS_UTC_DELTA - LEAP_SECONDS)
+
                 if pkt.apid == 1674:
+                    if pkt_cnt_1674 == 0:
+                        start_time_1674 = utc_time
+                        log.info(f"APID 1674 Start Time: {start_time_1674}")
+                    stop_time_1674 = utc_time
                     outfile_1674.write(HOSC_HEADER)
                     outfile_1674.write(pkt.hdr_data)
                     outfile_1674.write(pkt.body)
                     pkt_cnt_1674 += 1
                 elif pkt.apid == 1675:
+                    if pkt_cnt_1675 == 0:
+                        start_time_1675 = utc_time
+                        log.info(f"APID 1675 Start Time: {start_time_1674}")
+                    stop_time_1675 = utc_time
                     outfile_1675.write(HOSC_HEADER)
                     outfile_1675.write(pkt.hdr_data)
                     outfile_1675.write(pkt.body)
                     pkt_cnt_1675 += 1
 
-    log.info(f"Wrote {pkt_cnt_1674} packets to {out_file_1674}")
-    log.info(f"Wrote {pkt_cnt_1675} packets to {out_file_1675}")
+    current_utc_time = datetime.datetime.utcnow()
+    renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1674),
+                                                              time.strftime("%y%m%d%H%M%S", stop_time_1674),
+                                                              current_utc_time.strftime("%y%m%d%H%M%S"),
+                                                              "hsc.bin"]))
+    renamed_1675 = out_file_1675.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1675),
+                                                              time.strftime("%y%m%d%H%M%S", stop_time_1675),
+                                                              current_utc_time.strftime("%y%m%d%H%M%S"),
+                                                              "hsc.bin"]))
+    shutil.move(out_file_1674, renamed_1674)
+    shutil.move(out_file_1675, renamed_1675)
+
+    log.info(f"Wrote {pkt_cnt_1674} packets to {renamed_1674}")
+    log.info(f"Wrote {pkt_cnt_1675} packets to {renamed_1675}")
