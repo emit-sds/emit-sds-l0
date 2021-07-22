@@ -1,14 +1,11 @@
 #!/usr/bin/env python
  
 import argparse
-from collections import OrderedDict
-from sortedcontainers import SortedDict
  
 import emit.data_products as dp
 
-HOSC_HEADER = bytes(28)
 HOSC_HEADER_SIZE = 28
-
+HOSC_HEADER = bytes(HOSC_HEADER_SIZE)
 
 def main():
 
