@@ -17,7 +17,7 @@ GPS_UTC_DELTA = 315964800
 LEAP_SECONDS = 18
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Convert raw Ethernet PCAPs into HOSC-like data files"
     )
@@ -102,3 +102,7 @@ if __name__ == "__main__":
 
     log.info(f"Wrote {pkt_cnt_1674} packets to {renamed_1674}")
     log.info(f"Wrote {pkt_cnt_1675} packets to {renamed_1675}")
+
+
+if __name__ == "__main__":
+    main()
