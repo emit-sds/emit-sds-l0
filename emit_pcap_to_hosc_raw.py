@@ -93,19 +93,26 @@ def main():
 
     # Rename output files using format "emit_<APID>_<START_TIME>_<STOP_TIME>_<CUR_TIME>_hsc.bin"
     current_utc_time = datetime.datetime.utcnow()
-    renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1674),
-                                                              time.strftime("%y%m%d%H%M%S", stop_time_1674),
-                                                              current_utc_time.strftime("%y%m%d%H%M%S"),
-                                                              "hsc.bin"]))
-    renamed_1675 = out_file_1675.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1675),
-                                                              time.strftime("%y%m%d%H%M%S", stop_time_1675),
-                                                              current_utc_time.strftime("%y%m%d%H%M%S"),
-                                                              "hsc.bin"]))
-    shutil.move(out_file_1674, renamed_1674)
-    shutil.move(out_file_1675, renamed_1675)
 
-    log.info(f"Wrote {pkt_cnt_1674} packets to {renamed_1674}")
-    log.info(f"Wrote {pkt_cnt_1675} packets to {renamed_1675}")
+    if pkt_cnt_1674 > 0:
+        renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1674),
+                                                                  time.strftime("%y%m%d%H%M%S", stop_time_1674),
+                                                                  current_utc_time.strftime("%y%m%d%H%M%S"),
+                                                                  "hsc.bin"]))
+        shutil.move(out_file_1674, renamed_1674)
+        log.info(f"Wrote {pkt_cnt_1674} packets to {renamed_1674}")
+    else:
+        os.remove(out_file_1674)
+
+    if pkt_cnt_1675 > 0:
+        renamed_1675 = out_file_1675.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1675),
+                                                                  time.strftime("%y%m%d%H%M%S", stop_time_1675),
+                                                                  current_utc_time.strftime("%y%m%d%H%M%S"),
+                                                                  "hsc.bin"]))
+        shutil.move(out_file_1675, renamed_1675)
+        log.info(f"Wrote {pkt_cnt_1675} packets to {renamed_1675}")
+    else:
+        os.remove(out_file_1675)
 
 
 if __name__ == "__main__":
