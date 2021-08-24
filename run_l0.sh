@@ -17,6 +17,7 @@ fi
  
 
 ${L0_PROC_EXE} --input-dir ${IN_DIR} --output-dir ${OUT_DIR}
+IN_FILE=${IN_DIR}/*hsc.bin
 PROC_FILE=`ls ${OUT_DIR}/*.bin | sort | tail -1`
 LAST_OUTPUT_FILE=`basename ${PROC_FILE} | cut -d'.' -f1`
 REPORT_FILE=`ls ${OUT_DIR}/*_report.txt | sort | tail -1`
@@ -27,7 +28,7 @@ RENAMED_REPORT_FILE=${OUT_DIR}/${LAST_OUTPUT_FILE}_l0_ccsds_report.txt
 mv ${PROC_FILE} ${RENAMED_PROC_FILE}
 mv ${REPORT_FILE} ${RENAMED_REPORT_FILE}
 
-ORIG_SIZE=`stat -c %s ${PROC_FILE}`
+ORIG_SIZE=`stat -c %s ${IN_FILE}`
 PROC_SIZE=`stat -c %s ${RENAMED_PROC_FILE}`
 PROC_PKT_CNT=`grep "Packet count" ${RENAMED_REPORT_FILE} | cut -d":" -f2 | xargs`
 
