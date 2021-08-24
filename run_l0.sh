@@ -42,7 +42,7 @@ echo "-----------------------------" >> ${REPORT_LOG}
 echo "${IN_FILE} Proc Report" >> ${REPORT_LOG}
 echo "-----------------------------" >> ${REPORT_LOG}
 echo "Processed File: ${RENAMED_PROC_FILE}" >> ${REPORT_LOG}
-echo "Report File: ${RENAMED_REPORT_FILE}\n" >> ${REPORT_LOG}
+echo "Report File: ${RENAMED_REPORT_FILE}" >> ${REPORT_LOG}
 echo "Original File Size: ${ORIG_SIZE}" >> ${REPORT_LOG}
 echo "Processed File Size: ${PROC_SIZE}" >> ${REPORT_LOG}
 echo "CCSDS Count Check: ${CCSDS_CNT_CHECK}" >> ${REPORT_LOG}
