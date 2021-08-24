@@ -50,10 +50,6 @@ echo "Processed Packet Count: ${PROC_PKT_CNT}" >> ${REPORT_LOG}
 echo "Removed Header Size: $((${HOSC_HEADER_SIZE} * ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
 echo "File Size Match: $((${ORIG_SIZE} - ${HOSC_HEADER_SIZE} * ${PROC_PKT_CNT} == ${PROC_SIZE}))" >> ${REPORT_LOG}
 echo "\n"
-echo "Any incorrectly ordered packet errors (Nothing here is good):" >> ${REPORT_LOG}
-echo `grep "Encountered an out of order packet" ${RENAMED_REPORT_FILE}` >> ${REPORT_LOG}
-echo `grep "Encountered out of order PSC" ${RENAMED_REPORT_FILE}` >> ${REPORT_LOG}
-echo "\n"
 echo "Processed CCSDS Packet Count Check: $((${CCSDS_CNT_CHECK} == ${PROC_PKT_CNT}))" >> ${REPORT_LOG}
 echo "\n"
 
