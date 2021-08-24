@@ -17,7 +17,7 @@ fi
  
 
 ${L0_PROC_EXE} --input-dir ${IN_DIR} --output-dir ${OUT_DIR}
-IN_FILE=${IN_DIR}/*hsc.bin
+IN_FILE=`ls ${IN_DIR}/*hsc.bin | sort | tail -1`
 PROC_FILE=`ls ${OUT_DIR}/*.bin | sort | tail -1`
 LAST_OUTPUT_FILE=`basename ${PROC_FILE} | cut -d'.' -f1`
 REPORT_FILE=`ls ${OUT_DIR}/*_report.txt | sort | tail -1`
