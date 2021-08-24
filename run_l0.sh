@@ -30,7 +30,7 @@ mv ${REPORT_FILE} ${RENAMED_REPORT_FILE}
 
 ORIG_SIZE=`stat -c %s ${IN_FILE}`
 PROC_SIZE=`stat -c %s ${RENAMED_PROC_FILE}`
-PROC_PKT_CNT=`grep "Packet count" ${RENAMED_REPORT_FILE} | cut -d":" -f2 | xargs`
+PROC_PKT_CNT=`grep "Packet Count" ${RENAMED_REPORT_FILE} | cut -d":" -f2 | xargs`
 
 # A HOSC EHS packet consists of a 16-byte `Primary Header`, followed by a
 # 12-byte `Secondary Header`, and then followed by a CCSDS Packet.
@@ -39,7 +39,7 @@ HOSC_HEADER_SIZE=28
 CCSDS_CNT_CHECK=`python ${CCSDS_CHECK_SCRIPT} ${RENAMED_PROC_FILE} 2>&1 | tail -1`
 
 echo "-----------------------------" >> ${REPORT_LOG}
-echo "${PROC_FILE} Proc Report" >> ${REPORT_LOG}
+echo "${IN_FILE} Proc Report" >> ${REPORT_LOG}
 echo "-----------------------------" >> ${REPORT_LOG}
 echo "Processed File: ${RENAMED_PROC_FILE}" >> ${REPORT_LOG}
 echo "Report File: ${RENAMED_REPORT_FILE}\n" >> ${REPORT_LOG}
