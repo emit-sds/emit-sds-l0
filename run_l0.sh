@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IN_FILE=$1
+IN_DIR=$1
 OUT_DIR=$2
 REPORT_LOG=$3
 CCSDS_CHECK_SCRIPT=$4
@@ -16,7 +16,7 @@ if [ -f ${REPORT_LOG} ]; then
 fi
  
 
-${L0_PROC_EXE} --input-file ${IN_FILE} --output-dir ${OUT_DIR}
+${L0_PROC_EXE} --input-dir ${IN_DIR} --output-dir ${OUT_DIR}
 PROC_FILE=`ls ${OUT_DIR}/*.bin | sort | tail -1`
 LAST_OUTPUT_FILE=`basename ${PROC_FILE} | cut -d'.' -f1`
 REPORT_FILE=`ls ${OUT_DIR}/*_report.txt | sort | tail -1`
@@ -27,7 +27,7 @@ RENAMED_REPORT_FILE=${OUT_DIR}/${LAST_OUTPUT_FILE}_l0_ccsds_report.txt
 mv ${PROC_FILE} ${RENAMED_PROC_FILE}
 mv ${REPORT_FILE} ${RENAMED_REPORT_FILE}
 
-ORIG_SIZE=`stat -c %s ${IN_FILE}`
+ORIG_SIZE=`stat -c %s ${PROC_FILE}`
 PROC_SIZE=`stat -c %s ${RENAMED_PROC_FILE}`
 PROC_PKT_CNT=`grep "Packet count" ${RENAMED_REPORT_FILE} | cut -d":" -f2 | xargs`
 
@@ -38,7 +38,7 @@ HOSC_HEADER_SIZE=28
 CCSDS_CNT_CHECK=`python ${CCSDS_CHECK_SCRIPT} ${RENAMED_PROC_FILE} 2>&1 | tail -1`
 
 echo "-----------------------------" >> ${REPORT_LOG}
-echo "${IN_FILE} Proc Report" >> ${REPORT_LOG}
+echo "${PROC_FILE} Proc Report" >> ${REPORT_LOG}
 echo "-----------------------------" >> ${REPORT_LOG}
 echo "Processed File: ${RENAMED_PROC_FILE}" >> ${REPORT_LOG}
 echo "Report File: ${RENAMED_REPORT_FILE}\n" >> ${REPORT_LOG}
