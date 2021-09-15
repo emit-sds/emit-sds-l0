@@ -84,7 +84,7 @@ def main():
                 elif pkt.apid == 1675:
                     if pkt_cnt_1675 == 0:
                         start_time_1675 = utc_time
-                        log.info(f"APID 1675 Start Time: {start_time_1674}")
+                        log.info(f"APID 1675 Start Time: {start_time_1675}")
                     stop_time_1675 = utc_time
                     outfile_1675.write(HOSC_HEADER)
                     outfile_1675.write(pkt.hdr_data)
@@ -93,6 +93,8 @@ def main():
 
     # Rename output files using format "emit_<APID>_<START_TIME>_<STOP_TIME>_<CUR_TIME>_hsc.bin"
     current_utc_time = datetime.datetime.utcnow()
+
+    log.info(f"Packet counts - 1674: {pkt_cnt_1674}, 1675: {pkt_cnt_1675}")
 
     if pkt_cnt_1674 > 0:
         renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1674),
