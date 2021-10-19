@@ -66,10 +66,10 @@ def main():
                 # Our ethernet frames only contain a single CCSDS Packet ...
                 pkt = dp.CCSDSPacket(stream=in_bytes)
 
-                # Get course time and convert to UTC
+                # Get coarse time and convert to UTC
                 # TODO: Use leapseconds.dat or other common config file to determine leap seconds
-                course_time = int.from_bytes(pkt.body[:4], "big")
-                utc_time = time.gmtime(course_time + GPS_UTC_DELTA - LEAP_SECONDS)
+                coarse_time = int.from_bytes(pkt.body[:4], "big")
+                utc_time = time.gmtime(coarse_time + GPS_UTC_DELTA - LEAP_SECONDS)
 
                 # Write out HOSC files separately for engineering stream (APID 1674) and science stream (APID 1675)
                 if pkt.apid == 1674:
