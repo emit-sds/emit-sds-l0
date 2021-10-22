@@ -4,17 +4,14 @@ import datetime
 import io
 import os.path
 import shutil
-import time
 
 from ait.core import log
 from ait.core import pcap
+from ait.core import dmc
 
 import emit.data_products as dp
 
-
 HOSC_HEADER = bytes(28)
-GPS_UTC_DELTA = 315964800
-LEAP_SECONDS = 18
 
 
 def main():
@@ -67,9 +64,10 @@ def main():
                 pkt = dp.CCSDSPacket(stream=in_bytes)
 
                 # Get coarse time and convert to UTC
-                # TODO: Use leapseconds.dat or other common config file to determine leap seconds
                 coarse_time = int.from_bytes(pkt.body[:4], "big")
-                utc_time = time.gmtime(coarse_time + GPS_UTC_DELTA - LEAP_SECONDS)
+                d = dmc.GPS_Epoch + datetime.timedelta(seconds=(coarse_time))
+                offset = dmc.LeapSeconds.get_GPS_offset_for_date(d)
+                utc_time = d - datetime.timedelta(seconds=offset)
 
                 # Write out HOSC files separately for engineering stream (APID 1674) and science stream (APID 1675)
                 if pkt.apid == 1674:
@@ -97,8 +95,8 @@ def main():
     log.info(f"Packet counts - 1674: {pkt_cnt_1674}, 1675: {pkt_cnt_1675}")
 
     if pkt_cnt_1674 > 0:
-        renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1674),
-                                                                  time.strftime("%y%m%d%H%M%S", stop_time_1674),
+        renamed_1674 = out_file_1674.replace("hsc.bin", "_".join([start_time_1674.strftime("%y%m%d%H%M%S"),
+                                                                  stop_time_1674.strftime("%y%m%d%H%M%S"),
                                                                   current_utc_time.strftime("%y%m%d%H%M%S"),
                                                                   "hsc.bin"]))
         shutil.move(out_file_1674, renamed_1674)
@@ -107,8 +105,8 @@ def main():
         os.remove(out_file_1674)
 
     if pkt_cnt_1675 > 0:
-        renamed_1675 = out_file_1675.replace("hsc.bin", "_".join([time.strftime("%y%m%d%H%M%S", start_time_1675),
-                                                                  time.strftime("%y%m%d%H%M%S", stop_time_1675),
+        renamed_1675 = out_file_1675.replace("hsc.bin", "_".join([start_time_1675.strftime("%y%m%d%H%M%S"),
+                                                                  stop_time_1675.strftime("%y%m%d%H%M%S"),
                                                                   current_utc_time.strftime("%y%m%d%H%M%S"),
                                                                   "hsc.bin"]))
         shutil.move(out_file_1675, renamed_1675)
