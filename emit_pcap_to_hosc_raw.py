@@ -65,7 +65,7 @@ def main():
 
                 # Get coarse time and convert to UTC
                 coarse_time = int.from_bytes(pkt.body[:4], "big")
-                d = dmc.GPS_Epoch + datetime.timedelta(seconds=(coarse_time))
+                d = dmc.GPS_Epoch + datetime.timedelta(seconds=coarse_time)
                 offset = dmc.LeapSeconds.get_GPS_offset_for_date(d)
                 utc_time = d - datetime.timedelta(seconds=offset)
 

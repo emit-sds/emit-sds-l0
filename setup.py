@@ -29,7 +29,7 @@ setuptools.setup(
     python_requires=">=3",
     install_requires=[
         "sortedcontainers>=2.4.0",
-        "pytest>=6.2.4",
+        "pytest>=6.2.1",
         "pytest-cov>=2.10.1",
         "pycodestyle>=2.6.0",
         "ait-core>=2.3.5"
