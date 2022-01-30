@@ -2,27 +2,29 @@
 
 ## Description
 
-The emit-sds-l1a repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
+Welcome to the emit-sds-l1a repository.  This repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
 * Stripping HOSC headers from input HOSC files and outputting CCSDS files
 * Getting the start and stop times of CCSDS files
+
+To understand how this repository is linked to the rest of the emit-sds repositories, please see the [repository guide](https://github.com/emit-sds/emit-main/wiki/Repository-Guide).
 
 ## Installation Instructions
 
 Clone the repository:
-```bash
+```
 git clone https://github.jpl.nasa.gov/emit-sds/emit-sds-l0.git
 ```
 Run pip install:
-```bash
+```
 cd emit-sds-l0
 pip install -e .
 ```
 Clone the L0 EDP repository:
-```bash
+```
 git clone https://github.jpl.nasa.gov/emit/emit-l0edp.git
 ```
 Build cargo
-```bash
+```
 cd emit-l0edp
 cargo build --release
 ```
@@ -35,7 +37,7 @@ This repository is based on Python 3.x.  See `emit-sds-l0/setup.py` for specific
 
 ### Stripping HOSC Headers
 
-```bash
+```
 ./run_l0.sh <in_dir> <out_dir> <report_log> <ccsds_check_script> <l0_proc_exe>
 ```
 Where:
@@ -47,6 +49,6 @@ Where:
 
 ### Getting CCSDS Start and Stop Times
 
-```bash
+```
 python get_ccsds_start_stop_times.py <input_ccsds_path> <output_json_path>
 ```
