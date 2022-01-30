@@ -2,7 +2,7 @@
 
 ## Description
 
-Welcome to the emit-sds-l1a repository.  This repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
+Welcome to the emit-sds-l0 repository.  This repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
 * Stripping HOSC headers from input HOSC files and outputting CCSDS files
 * Getting the start and stop times of CCSDS files
 
