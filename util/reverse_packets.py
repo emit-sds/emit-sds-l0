@@ -1,11 +1,12 @@
 #!/usr/bin/env python
- 
+
 import argparse
- 
+
 import emit.data_products as dp
 
 HOSC_HEADER_SIZE = 28
 HOSC_HEADER = bytes(HOSC_HEADER_SIZE)
+
 
 def main():
 
