@@ -3,6 +3,8 @@ import argparse
 import datetime
 import json
 
+from argparse import RawTextHelpFormatter
+
 from ait.core import log
 from ait.core import dmc
 
@@ -11,7 +13,11 @@ import emit.data_products as dp
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Get the start and stop times of the input CCSDS stream file"
+        description="Description: This script gets the start and stop times of the input CCSDS stream file.\n"
+                    "Operating Environment: Python 3.x. See setup.py file for specific dependencies.\n"
+                    "Outputs:\n"
+                    "    * A JSON formatted file containing start and stop times.\n",
+        formatter_class=RawTextHelpFormatter
     )
 
     parser.add_argument(
