@@ -53,10 +53,6 @@ def main():
         with open(out_file_1674, "wb") as outfile_1674, open(out_file_1675, "wb") as outfile_1675:
             for _header, data in infile:
 
-                # Hopefully filter out any ethernet frames that aren't from EMIT
-                if len(data) != 1514:
-                    continue
-
                 # Drop ethernet frame header and setup stream-like interface
                 in_bytes = io.BytesIO(data[14:])
 
