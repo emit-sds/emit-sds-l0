@@ -1,8 +1,14 @@
-# emit-sds-l0
+<h1 align="center">
+emit-sds-l0
+</h1>
 
 ## Description
 
-Welcome to the emit-sds-l0 repository.  This repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
+_NOTE - See the **develop** branch - set as default - for the latest updates._
+
+Welcome to the EMIT Level 0 science data system repository.  To understand how this repository is linked to the rest of the emit-sds repositories, please see [the repository guide](https://github.com/emit-sds/emit-main/wiki/Repository-Guide).
+
+This repository contains scripts for executing the various EMIT L0 PGEs.  These PGEs include the following functions:
 * Stripping HOSC headers from input HOSC files and outputting CCSDS files
 * Getting the start and stop times of CCSDS files
 
