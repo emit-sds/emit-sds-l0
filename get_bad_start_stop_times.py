@@ -6,6 +6,16 @@ import json
 
 from argparse import RawTextHelpFormatter
 
+from ait.core import dmc
+
+
+def get_utc_time_from_gps(gps_time):
+    # Convert gps_time in seconds to a timestamp in utc
+    d = dmc.GPS_Epoch + datetime.timedelta(seconds=gps_time)
+    offset = dmc.LeapSeconds.get_GPS_offset_for_date(d)
+    utc_time = d - datetime.timedelta(seconds=offset)
+    return utc_time
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -35,17 +45,18 @@ def main():
 
     index = None
     for i, header in enumerate(headers):
-        if header == "Timestamp : Embedded GMT":
+        # LADP06MD2378W is the header for the coarse time (in GPS seconds)
+        if header == "LADP06MD2378W":
             index = i
             break
 
     if index is None:
-        raise RuntimeError("Unable to find embedded GMT column in data")
+        raise RuntimeError("Unable to find coarse time column (LADP06MD2378W) in data")
 
-    timestamps = [datetime.datetime.strptime(row[index], "%Y:%j:%H:%M:%S") for row in rows]
+    gps_times = [float(row[index]) for row in rows]
 
-    start_time = min(timestamps)
-    stop_time = max(timestamps)
+    start_time = get_utc_time_from_gps(min(gps_times))
+    stop_time = get_utc_time_from_gps(max(gps_times))
 
     output = {
         "start_time": start_time.strftime("%Y-%m-%dT%H:%M:%S"),
