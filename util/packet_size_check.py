@@ -18,8 +18,10 @@ skip = 4000
 while True:
     try:
         pkt = dp.CCSDSPacket(in_file)
-        pkt_size = PRIMARY_HDR_LEN + pkt.pkt_data_len + 1
+        # pkt_size = PRIMARY_HDR_LEN + pkt.pkt_data_len + 1
+        pkt_size = pkt.pkt_data_len
         if pkt_size < args.threshold:
+            print(f"Found small packet of size {pkt_size}")
             cnt += 1
         if pkt.pkt_seq_cnt % skip == 0:
             print(f"Packet {str(pkt.pkt_seq_cnt).zfill(5)} size: {pkt_size}")
