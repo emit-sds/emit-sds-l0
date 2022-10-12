@@ -31,4 +31,3 @@ with open(args.infile, "rb") as f:
             break
 
 print(f"Total packets: {count}")
-

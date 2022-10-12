@@ -28,13 +28,12 @@ with open(args.infile, "rb") as f:
 
             if pkt.coarse_time == args.coarse_time and pkt.fine_time == args.fine_time and pkt.pkt_seq_cnt == args.psc:
                 print(f"Found packet with coarse={args.coarse_time}, fine={args.fine_time}, and psc={args.psc}")
-                
+
             if pkt.coarse_time == args.coarse_time and pkt.pkt_seq_cnt == args.psc:
                 print(f"Found packet with coarse={args.coarse_time}, and psc={args.psc}")
-                
+
             count += 1
         except EOFError:
             break
 
 print(f"Total packets: {count}")
-
