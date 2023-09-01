@@ -53,7 +53,7 @@ def main():
     if index is None:
         raise RuntimeError("Unable to find coarse time column (LADP06MD2378W) in data")
 
-    gps_times = [float(row[index]) for row in rows if len(row) > index]
+    gps_times = [float(row[index]) for row in rows if len(row) > index and float(row[index]) > 0]
 
     start_time = get_utc_time_from_gps(min(gps_times))
     stop_time = get_utc_time_from_gps(max(gps_times))
