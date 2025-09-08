@@ -11,6 +11,7 @@ parser.add_argument("infile")
 parser.add_argument("coarse_time", type=int)
 parser.add_argument("fine_time", type=int)
 parser.add_argument("psc", type=int)
+parser.add_argument("--frame_hdr_format", default="1.0")
 args = parser.parse_args()
 
 print(f"Args are coarse={args.coarse_time}, fine={args.fine_time}, and psc={args.psc}")
@@ -24,7 +25,7 @@ with open(args.infile, "rb") as f:
             # Read hosc header
             hosc_header = f.read(HOSC_HEADER_LEN)
             # Read a packet
-            pkt = ScienceDataPacket(stream=f)
+            pkt = ScienceDataPacket(stream=f, frame_hdr_format=args.frame_hdr_format)
 
             if pkt.coarse_time == args.coarse_time and pkt.fine_time == args.fine_time and pkt.pkt_seq_cnt == args.psc:
                 print(f"Found packet with coarse={args.coarse_time}, fine={args.fine_time}, and psc={args.psc}")

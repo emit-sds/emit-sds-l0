@@ -8,6 +8,7 @@ HOSC_HEADER_LEN = 28
 
 parser = argparse.ArgumentParser()
 parser.add_argument("infile")
+parser.add_argument("--frame_hdr_format", default="1.0")
 args = parser.parse_args()
 
 # in_file = open(args.infile, "rb")
@@ -20,7 +21,7 @@ with open(args.infile, "rb") as f:
             # Read hosc header
             hosc_header = f.read(HOSC_HEADER_LEN)
             # Read a packet
-            pkt = ScienceDataPacket(stream=f)
+            pkt = ScienceDataPacket(stream=f, frame_hdr_format=args.frame_hdr_format)
             if prev_pkt is not None and (prev_pkt.pkt_seq_cnt + 1) % 16384 != pkt.pkt_seq_cnt:
                 print(f"Out of order - prev_psc is {prev_pkt.pkt_seq_cnt}, current psc is {pkt.pkt_seq_cnt}")
                 print(f"Previous: {prev_pkt}")
