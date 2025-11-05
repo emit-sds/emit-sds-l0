@@ -12,7 +12,7 @@ from ait.core import dmc
 def get_utc_time_from_gps(gps_time):
     # Convert gps_time in seconds to a timestamp in utc
     d = dmc.GPS_Epoch + datetime.timedelta(seconds=gps_time)
-    offset = dmc.LeapSeconds.get_GPS_offset_for_date(d)
+    offset = dmc.LeapSeconds.get_gps_offset_for_date(d)
     utc_time = d - datetime.timedelta(seconds=offset)
     return utc_time
 
