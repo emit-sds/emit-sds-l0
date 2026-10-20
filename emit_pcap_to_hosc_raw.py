@@ -7,12 +7,12 @@ import shutil
 
 from ait.core import log
 from ait.core import pcap
-from ait.core import dmc
 
 import emit.data_products as dp
 
 HOSC_HEADER = bytes(28)
-
+GPS_EPOCH = datetime.datetime(1980, 1, 6)
+GPS_UTC_OFFSET = 18
 
 def main():
     parser = argparse.ArgumentParser(
@@ -66,9 +66,8 @@ def main():
 
                 # Get coarse time and convert to UTC
                 coarse_time = int.from_bytes(pkt.body[:4], "big")
-                d = dmc.GPS_Epoch + datetime.timedelta(seconds=coarse_time)
-                offset = dmc.LeapSeconds.get_gps_offset_for_date(d)
-                utc_time = d - datetime.timedelta(seconds=offset)
+                d = GPS_EPOCH + datetime.timedelta(seconds=coarse_time)
+                utc_time = d - datetime.timedelta(seconds=GPS_UTC_OFFSET)
 
                 # Write out HOSC files separately for engineering stream (APID 1674), science stream (APID 1675),
                 # and engineering ancillary stream (APID 1676)
