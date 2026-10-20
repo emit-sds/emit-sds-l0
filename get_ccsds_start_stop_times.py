@@ -5,12 +5,14 @@ import json
 
 from argparse import RawTextHelpFormatter
 
-from ait.core import log
+import logging
 
 import emit.data_products as dp
 
 GPS_EPOCH = datetime.datetime(1980, 1, 6)
 GPS_UTC_OFFSET = 18
+
+log = logging.getLogger(__name__)
 
 def main():
     parser = argparse.ArgumentParser(

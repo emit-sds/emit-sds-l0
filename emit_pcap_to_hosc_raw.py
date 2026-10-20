@@ -5,7 +5,8 @@ import io
 import os.path
 import shutil
 
-from ait.core import log
+import logging
+
 from ait.core import pcap
 
 import emit.data_products as dp
@@ -13,6 +14,9 @@ import emit.data_products as dp
 HOSC_HEADER = bytes(28)
 GPS_EPOCH = datetime.datetime(1980, 1, 6)
 GPS_UTC_OFFSET = 18
+
+log = logging.getLogger(__name__)
+
 
 def main():
     parser = argparse.ArgumentParser(
